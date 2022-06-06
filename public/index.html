@@ -1,75 +1,100 @@
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Mailing List</title>
-        <script src="https://unpkg.com/read-excel-file@5.x/bundle/read-excel-file.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <h3 class="text-center mt-4 mb-4">Mailing List</h3> 
-            <div class="card">
-                <div class="card-header"><b>Select An Excel File</b></div>
-                <div class="card-body">
-                    <input type="file" id="excel_file" />
-                </div>
-            </div>
-            <div id="excel_data" class="mt-5"></div>
-
+  <head>
+    <meta charset="utf-8" />
+    <title>Mailing List</title>
+    <script src="https://unpkg.com/read-excel-file@5.x/bundle/read-excel-file.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <h3 class="text-center mt-4 mb-4">Mailing List</h3>
+      <div class="card">
+        <div class="card-header"><b>Select An Excel File</b></div>
+        <div class="card-body">
+          <input type="file" id="excel_file" />
         </div>
-        <!-- <input type="file" id="input"> -->
-        <table id="tbl-data"></table>
-
-        <script>
-            // var input = document.getElementById('input');
-            // input.addEventListener('change', function() {
-            //      readXlsxFile(input.files[0]).then(function(data) {
-            //          console.log(data)  
-            //      });
-            // })
-        </script>
-    </body>
+      </div>
+      <div id="excel_data" class="mt-5"></div>
+    </div>
+    <!-- <input type="file" id="input"> -->
+    <table id="tbl-data"></table>
+    <div class="text-center">
+      <button class="btn btn-light subBtn">Submit</button>
+    </div>
+    <script>
+      // var input = document.getElementById('input');
+      // input.addEventListener('change', function() {
+      //      readXlsxFile(input.files[0]).then(function(data) {
+      //          console.log(data)
+      //      });
+      // })
+    </script>
+  </body>
 </html>
 
 <script>
-    const excel_file = document.getElementById('excel_file');
-    
-    excel_file.addEventListener('change', (event) => {
-        
-        var reader = new FileReader();
-        reader.readAsArrayBuffer(event.target.files[0]);
-        reader.onload = function(event){
-            var data = new Uint8Array(reader.result);
-            var work_book = XLSX.read(data, {type:'array'});
-            var sheet_name = work_book.SheetNames;
-            var sheet_data = XLSX.utils.sheet_to_json(work_book.Sheets[sheet_name[0]], {header:1});
-            console.log(sheet_data)
+  const excel_file = document.getElementById("excel_file");
 
-            
-        if(sheet_data.length > 0)
-        {
-            var table_output = '<table class="table table-striped table-bordered">';
-            for(var row = 0; row < sheet_data.length; row++){
-                table_output += '<tr>';
-                for(var cell = 0; cell < sheet_data[row].length; cell++){
-                    if(row == 0){
-                        table_output += '<th>'+sheet_data[row][cell]+'</th>';
-                    } else {
-                        table_output += '<td>'+sheet_data[row][cell]+'</td>';
-                    }
-                }
-                table_output += '</tr>';
+  var sheet_data;
+  console.log("Sheet Data" + sheet_data);
+
+  const submitBtnElement = document.getElementsByClassName("subBtn")[0];
+
+  submitBtnElement.addEventListener("click", () => {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:5000/submit", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(
+      JSON.stringify({
+        value: "test",
+        array: sheet_data,
+      })
+    );
+  });
+
+  function handleSubmit() {
+    console.log("I was clicked!");
+  }
+
+  excel_file.addEventListener("change", (event) => {
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(event.target.files[0]);
+    reader.onload = function (event) {
+      var data = new Uint8Array(reader.result);
+      var work_book = XLSX.read(data, { type: "array" });
+      var sheet_name = work_book.SheetNames;
+      sheet_data = XLSX.utils.sheet_to_json(work_book.Sheets[sheet_name[0]], {
+        header: 1,
+      });
+      console.log(sheet_data);
+
+      if (sheet_data.length > 0) {
+        var table_output = '<table class="table table-striped table-bordered">';
+        for (var row = 0; row < sheet_data.length; row++) {
+          table_output += "<tr>";
+          for (var cell = 0; cell < sheet_data[row].length; cell++) {
+            if (row == 0) {
+              table_output += "<th>" + sheet_data[row][cell] + "</th>";
+            } else {
+              table_output += "<td>" + sheet_data[row][cell] + "</td>";
             }
-            table_output += '</table>';
-            document.getElementById('excel_data').innerHTML = table_output;
+          }
+          table_output += "</tr>";
         }
+        table_output += "</table>";
+        table_output += "<br/>";
 
-        }
-        
-
-
-    });
-
-
+        document.getElementById("excel_data").innerHTML = table_output;
+      }
+    };
+  });
 </script>
