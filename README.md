@@ -16,7 +16,7 @@ To get a local copy up and running follow these simple steps:
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/hemani-gajjar/
+   git clone https://github.com/hemani-gajjar/mailchimp-integration.git
    ```
 2. Install NPM packages
    ```sh
@@ -29,8 +29,7 @@ To get a local copy up and running follow these simple steps:
    This command runs the app in the development mode.
    Open http://localhost:5000 to view it in the browser.
 
-The server will reload if you make edits.
-You will also see any lint errors in the console.
+- The server will reload if you make edits.You will also see any lint errors in the console.
 
 ### Configuration for Environment Variables
 
@@ -44,8 +43,8 @@ You will also see any lint errors in the console.
 
   2. **DATA_CENTER**="`<usX>`"
 
-  - The data center (In the format of us1, us2, us16 etc) can be determined from the URL shown at your Mailchimp Dashboard Eg: (https://us6.admin.mailchimp.com/)
-  - Here, datacenter would be `us6`
+  - The data center (In the format of us1, us2, us16 etc) can be determined from the URL shown at your Mailchimp Dashboard.
+  - For example, if the URL is as follows: `https://us6.admin.mailchimp.com/` In this case, datacenter would be `us6`
 
   3. **API_KEY**="`<Your_API_Key>`"
 
@@ -53,7 +52,7 @@ You will also see any lint errors in the console.
 
 ### Format of the Excel File used for importing the user list
 
-- Columns Names: **First Name**, **Last Name**, **Email**
+- Columns Names: **First Name**, **Last Name**, **Email**. A sample example is show below:
 
   | First Name | Last Name | Email                     |
   | ---------- | --------- | ------------------------- |
