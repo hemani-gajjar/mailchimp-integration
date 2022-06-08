@@ -41,10 +41,10 @@ To get a local copy up and running follow these simple steps:
 
   - You can find the `List ID` (Now named as `Audience ID`) where you wish to import the email IDs of the users from the excel sheet on Mailchimp as shown [here](https://mailchimp.com/help/find-audience-id/)
 
-  2. **DATA_CENTER**="`<usX>`"
+  2. **SERVER_PREFIX**="`<usX>`"
 
-  - The data center (In the format of us1, us2, us16 etc) can be determined from the URL shown at your Mailchimp Dashboard.
-  - For example, if the URL is as follows: `https://us6.admin.mailchimp.com/` In this case, datacenter would be `us6`
+  - The server prefix (In the format of us1, us2, us16 etc) can be determined from the URL shown at your Mailchimp Dashboard.
+  - For example, if the URL is as follows: `https://us6.admin.mailchimp.com/` In this case, the server prefix would be `us6`
 
   3. **API_KEY**="`<Your_API_Key>`"
 
