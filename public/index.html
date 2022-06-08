@@ -28,7 +28,10 @@
     <!-- <input type="file" id="input"> -->
     <table id="tbl-data"></table>
     <div class="text-center">
-      <button class="btn btn-light subBtn">Submit</button>
+      <button class="btn btn-light subBtn m-2">Submit</button>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-dark sendBtn m-1">Send</button>
     </div>
     <script>
       // var input = document.getElementById('input');
@@ -48,6 +51,7 @@
   console.log("Sheet Data" + sheet_data);
 
   const submitBtnElement = document.getElementsByClassName("subBtn")[0];
+  const sendBtnElement = document.getElementsByClassName("sendBtn")[0];
 
   submitBtnElement.addEventListener("click", () => {
     var xhr = new XMLHttpRequest();
@@ -57,6 +61,17 @@
       JSON.stringify({
         value: "test",
         array: sheet_data,
+      })
+    );
+  });
+
+  sendBtnElement.addEventListener("click", () => {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:5000/send", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(
+      JSON.stringify({
+        value: "test",
       })
     );
   });
