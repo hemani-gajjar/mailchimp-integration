@@ -16,7 +16,7 @@
   </head>
   <body>
     <div class="container">
-      <h3 class="text-center mt-4 mb-4">Mailing List</h3>
+      <h4 class="text-center mt-4 mb-4">Add new members to the mailing List</h4>
       <div class="card">
         <div class="card-header"><b>Select An Excel File</b></div>
         <div class="card-body">
@@ -25,13 +25,39 @@
       </div>
       <div id="excel_data" class="mt-5"></div>
     </div>
-    <!-- <input type="file" id="input"> -->
     <table id="tbl-data"></table>
     <div class="text-center">
-      <button class="btn btn-light subBtn m-2">Submit</button>
+      <button class="btn btn-light subBtn">Submit</button>
     </div>
+    <h4 class="text-center mt-4 mb-4">Send a Mail</h4>
+    <form>
+      <div class="form-group row justify-content-center">
+        <div class="col-lg-8 col-md-4 col-2">
+          <label for="subjectLine"><strong>Subject Line</strong></label>
+          <input
+            type="text"
+            class="form-control subLine"
+            id="subjectLine"
+            placeholder="Enter the Subject of the Mail"
+          />
+        </div>
+      </div>
+
+      <div class="form-group row justify-content-center">
+        <div class="col-lg-8 col-md-4 col-2">
+          <label for="rawHtml"> <strong>Mail Content</strong></label>
+          <textarea
+            class="form-control mailContent"
+            id="rawHtml"
+            rows="7"
+            placeholder="Enter Plaintext OR Raw HTML"
+          ></textarea>
+        </div>
+      </div>
+    </form>
     <div class="text-center">
       <button class="btn btn-dark sendBtn m-1">Send</button>
+      <!-- <button class="btn btn-light prevBtn m-1">Preview</button> -->
     </div>
     <script>
       // var input = document.getElementById('input');
@@ -52,6 +78,8 @@
 
   const submitBtnElement = document.getElementsByClassName("subBtn")[0];
   const sendBtnElement = document.getElementsByClassName("sendBtn")[0];
+  const subLineElement = document.getElementsByClassName("subLine")[0];
+  const mailContentElement = document.getElementsByClassName("mailContent")[0];
 
   submitBtnElement.addEventListener("click", () => {
     var xhr = new XMLHttpRequest();
@@ -72,9 +100,13 @@
     xhr.send(
       JSON.stringify({
         value: "test",
+        subject: subLineElement.value,
+        content: mailContentElement.value,
       })
     );
   });
+
+  // console.log(mailContentValue.val);
 
   function handleSubmit() {
     console.log("I was clicked!");
