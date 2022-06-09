@@ -50,14 +50,14 @@ const getContent = async () => {
 var campaignID = "";
 
 // Create a new Campaign
-const createCampaign = async () => {
+const createCampaign = async (sub) => {
   const response = await mailchimp.campaigns.create({
     type: "regular",
     recipients: { list_id: process.env.AUDIENCE_ID },
     settings: {
-      subject_line: "Test Mailchimp Campaign 📧 ",
+      subject_line: sub,
       from_name: process.env.FROM_NAME,
-      title: "Test API Email Campaign",
+      title: "Test API Campaign",
       reply_to: process.env.EMAIL,
     },
   });
@@ -66,43 +66,9 @@ const createCampaign = async () => {
 };
 
 // Set content for an already created Campaign
-const setContent = async () => {
+const setContent = async (htmlContent) => {
   const response = await mailchimp.campaigns.setContent(String(campaignID), {
-    html: `<!DOCTYPE html>
-    <html>
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
-    <style>
-    body {font-family: "Raleway", Arial, sans-serif}
-    .w3-row img {margin-bottom: -8px}
-    </style>
-    </head>
-    <body>
-
-    <div class="w3-content" style="max-width:1500px">
-
-      <header width="100%">
-      <h2 class="center" style="padding:0rem 5rem 0rem 5rem; text-align:center;"> Hello There </h2>
-      </header>
-      </div>
-     </div>
-
-    <footer style="margin:0rem 5rem 0rem 5rem" id="about">
-      <img style="display: block; margin-left: auto; margin-right: auto; margin-bottom:1.5rem" src="https://static.vecteezy.com/system/resources/thumbnails/000/358/552/small/Spring_Day_Wallpaper.jpg" width="250" height="250">
-
-        <p style="margin:auto;width:60%; text-align:center;">Hello there. This is an email that is sent to you as part of the testing done by Hemani Gajjar. She is creating a New Campaign on Mailchimp. </p>
-        <br>
-        <p style="margin:auto;width:70%; text-align:center;">Thank you for being part of the testing proces!</p>
-
-      <br>
-    </footer>
-
-    </body>
-    </html>
-      `,
+    html: htmlContent,
   });
   console.log(response);
 };
@@ -167,8 +133,8 @@ app.post("/send", (req, res) => {
   console.log("You just made a POST request at the route /send");
 
   const FinalSendCampaign = async () => {
-    const res = await createCampaign();
-    const result = await setContent();
+    const res = await createCampaign(req.body.subject);
+    const result = await setContent(req.body.content);
     const result2 = await sendCampaign();
   };
 
