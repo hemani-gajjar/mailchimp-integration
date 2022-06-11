@@ -51,7 +51,7 @@ To get a local copy up and running follow these simple steps:
 
 ### Configuration for Environment Variables
 
-##### There are 3 environment variables that you need to configure:
+##### There are 5 environment variables that you need to configure:
 
 - In the project root directory, create a folder named `.env` and set the values for following variables:
 
