@@ -8,6 +8,7 @@ const sendBtnElement = document.getElementsByClassName("sendBtn")[0];
 const subLineElement = document.getElementsByClassName("subLine")[0];
 const mailContentElement = document.getElementsByClassName("mailContent")[0];
 const prevBtnElement = document.getElementsByClassName("prevBtn")[0];
+let iFrameElement = document.getElementById("code");
 
 submitBtnElement.addEventListener("click", () => {
   var xhr = new XMLHttpRequest();
@@ -60,7 +61,22 @@ sendBtnElement.addEventListener("click", () => {
 });
 
 prevBtnElement.addEventListener("click", () => {
-  console.log("Preview Button was clicked!");
+  initialText = "Preview";
+  if (
+    prevBtnElement.textContent.toLowerCase().includes(initialText.toLowerCase())
+  ) {
+    prevBtnElement.textContent = "Close";
+    iFrameElement.scrollIntoView();
+  } else {
+    prevBtnElement.textContent = initialText;
+  }
+
+  //   if ((prevBtnElement.textContent = "Preview")) {
+  //     prevBtnElement.textContent = "Close";
+  //   } else if ((prevBtnElement.textContent = "Close")) {
+  //     prevBtnElement.textContent = "Preview";
+  //   }
+
   var code = document.getElementById("code");
   if (code.style.display === "none") {
     code.style.display = "block";
