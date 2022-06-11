@@ -65,6 +65,8 @@ const createCampaign = async (sub) => {
   campaignID = response.id; // Campaign ID of the newly created campaign
 };
 
+// createCampaign();
+
 // Set content for an already created Campaign
 const setContent = async (htmlContent) => {
   const response = await mailchimp.campaigns.setContent(String(campaignID), {
@@ -127,6 +129,42 @@ app.post("/submit", (req, res) => {
     }
   }
 });
+
+// Schedule an email campaign (will be sent only once)
+const scheduleCampaign = async () => {
+  const response = await mailchimp.campaigns.schedule("campaign_id", {
+    schedule_time: "2022-05-27T12:12:14.300Z",
+  });
+  console.log(response);
+};
+
+//Create a RSS-driven Campaign (Can send emails on a daily, weekly or monthly basis)
+const createRssCampaign = async () => {
+  const response = await mailchimp.campaigns.create({
+    type: "rss",
+    rss_opts: {
+      schedule: {
+        hour: 6,
+        daily_send: {
+          sunday: true,
+          monday: false,
+          tuesday: false,
+          saturday: false,
+        },
+        weekly_send_day: "sunday",
+        monthly_send_date: "23",
+      },
+    },
+    recipients: { list_id: process.env.AUDIENCE_ID },
+    settings: {
+      subject_line: "This is a Test Subject Line for a RSS-driven Campaign",
+      from_name: process.env.FROM_NAME,
+      title: "Test RSS Campaign",
+      reply_to: process.env.EMAIL,
+    },
+  });
+  console.log(response);
+};
 
 // Send Route
 app.post("/send", (req, res) => {
