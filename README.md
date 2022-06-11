@@ -47,7 +47,7 @@ To get a local copy up and running follow these simple steps:
 
 ##### There are 5 environment variables that you need to configure:
 
-In the project root directory, create a folder named `.env` and set the values for following variables:
+In the project root directory, create a file named `.env` and set the values for following variables:
 
 1.  #### **AUDIENCE_ID**="<Your_Audience_ID>"
 
