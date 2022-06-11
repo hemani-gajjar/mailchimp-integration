@@ -68,3 +68,32 @@
     opacity: 0;
   }
 }
+
+/* ------------- Page Styling ------------------*/
+
+.card-header {
+  background-color: #6d3088;
+  color: white;
+}
+
+.headings {
+  color: #727679;
+}
+
+.subBtn,
+.sendBtn,
+.prevBtn {
+  background-color: #6d3088;
+  color: white;
+}
+
+iframe {
+  width: 70%;
+  height: 25em;
+  margin: 2rem;
+  border-radius: 0.3rem;
+  border-width: 0.05rem;
+  overflow: scroll;
+  display: none;
+  border-color: #6d3088;
+}
