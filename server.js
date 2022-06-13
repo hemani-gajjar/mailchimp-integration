@@ -130,10 +130,17 @@ app.post("/submit", (req, res) => {
   }
 });
 
+// Schedule Route
+app.post("/schedule", (req, res) => {
+  console.log("You just made a POST request to the route /schedule");
+  console.log(req.body);
+  // scheduleCampaign(req.body.dateTime);
+});
+
 // Schedule an email campaign (will be sent only once)
-const scheduleCampaign = async () => {
+const scheduleCampaign = async (date_time) => {
   const response = await mailchimp.campaigns.schedule("campaign_id", {
-    schedule_time: "2022-05-27T12:12:14.300Z",
+    schedule_time: date_time, //"2022-05-27T12:12:14.300Z"
   });
   console.log(response);
 };
