@@ -7,7 +7,14 @@ const submitBtnElement = document.getElementsByClassName("subBtn")[0];
 const sendBtnElement = document.getElementsByClassName("sendBtn")[0];
 const subLineElement = document.getElementsByClassName("subLine")[0];
 const mailContentElement = document.getElementsByClassName("mailContent")[0];
+const schedBtnElement = document.getElementsByClassName("schedBtn")[0];
 const prevBtnElement = document.getElementsByClassName("prevBtn")[0];
+const dateTimeElement = document.getElementsByClassName("datetimepicker")[0];
+const startBtnElement = document.getElementsByClassName("startBtn")[0];
+const freqSelectElement = document.getElementsByClassName("frequency")[0];
+const timeSelectElement = document.getElementsByClassName("time")[0];
+const daySelectElement = document.getElementsByClassName("form-check-input");
+
 let iFrameElement = document.getElementById("code");
 
 submitBtnElement.addEventListener("click", () => {
@@ -35,9 +42,6 @@ function compilePreview() {
   var html = document.getElementById("rawHtml");
   var code = document.getElementById("code").contentWindow.document;
 
-  console.log(html);
-  console.log(code);
-
   document.body.onkeyup = function () {
     code.open();
     code.writeln(html.value);
@@ -60,7 +64,20 @@ sendBtnElement.addEventListener("click", () => {
   );
 });
 
+schedBtnElement.addEventListener("click", () => {
+  console.log("Schedule Button was clicked!");
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:5000/schedule", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(
+    JSON.stringify({
+      dateTime: dateTimeElement.value,
+    })
+  );
+});
+
 prevBtnElement.addEventListener("click", () => {
+  console.log("Preview button was clicked!");
   initialText = "Preview";
   if (
     prevBtnElement.textContent.toLowerCase().includes(initialText.toLowerCase())
@@ -83,6 +100,27 @@ prevBtnElement.addEventListener("click", () => {
   } else {
     code.style.display = "none";
   }
+});
+
+startBtnElement.addEventListener("click", () => {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:5000/start", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(
+    JSON.stringify({
+      frequency: freqSelectElement.value,
+      hour: timeSelectElement.value,
+      dailySend: {
+        sunday: daySelectElement[0].checked,
+        monday: daySelectElement[1].checked,
+        tuesday: daySelectElement[2].checked,
+        wednesday: daySelectElement[3].checked,
+        thursday: daySelectElement[4].checked,
+        friday: daySelectElement[5].checked,
+        saturday: daySelectElement[6].checked,
+      },
+    })
+  );
 });
 
 excel_file.addEventListener("change", (event) => {

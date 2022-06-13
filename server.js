@@ -186,5 +186,11 @@ app.post("/send", (req, res) => {
   FinalSendCampaign();
 });
 
+// Start Route
+app.post("/start", (req, res) => {
+  console.log("You just made a POST request to the route /start");
+  console.log(req.body);
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, console.log(`Server started on ${port}`));
