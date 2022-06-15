@@ -128,6 +128,8 @@ app.post("/submit", (req, res) => {
         .catch((err) => console.log(err));
     }
   }
+
+  res.status(200).send({ statusCode: res.statusCode });
 });
 
 // Schedule Route

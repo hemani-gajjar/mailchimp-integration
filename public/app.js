@@ -18,24 +18,40 @@ const daySelectElement = document.getElementsByClassName("form-check-input");
 let iFrameElement = document.getElementById("code");
 
 submitBtnElement.addEventListener("click", () => {
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5000/submit", true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.send(
-    JSON.stringify({
+  // Example request options
+  fetch("http://localhost:5000/submit", {
+    method: "post", // Default is 'get'
+    body: JSON.stringify({
       value: "test",
       array: sheet_data,
+    }),
+    mode: "cors",
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
     })
-  );
-
-  // // Snackbar
-  // var x = document.getElementById("snackbar");
-  // // Add the "show" class to div
-  // x.className = "show";
-  // // After 3 seconds, remove the show class from div
-  // setTimeout(function () {
-  //   x.className = x.className.replace("show", "");
-  // }, 3000);
+    .then((data) => {
+      if (data) {
+        console.log(data);
+        if (data.statusCode == 200) {
+          // Snackbar
+          var x = document.getElementById("members-snackbar");
+          // Show the Snackbar
+          // Add the "show" class to div
+          x.className = "show";
+          // After 3 seconds, remove the show class from div
+          setTimeout(function () {
+            x.className = x.className.replace("show", "");
+          }, 3000);
+        }
+      }
+    })
+    .catch((err) => console.error(err));
 });
 
 function compilePreview() {
